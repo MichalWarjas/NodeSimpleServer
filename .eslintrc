@@ -22,7 +22,8 @@
     "Camera": "writable",
     "sap": "readonly",
     "alert": "readonly",
-    "JSON": "writable"
+    "JSON": "writable",
+    "google": "writable"
   },
 
   "rules": {

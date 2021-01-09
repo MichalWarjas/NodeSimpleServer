@@ -41,7 +41,4 @@ node_modules/
 
 ########################
 
-Caching.js
-index.html
-Modules.js
-applyAndHTMLList.html
+web/

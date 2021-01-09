@@ -4,11 +4,24 @@ const path = require('path');
 const host = 'localhost';
 const port = 9999;
 const fileMap = {};
+let bUseCache = true;
+process.argv.forEach((val, index) => {
+  if (index < 1){
+    return;
+  }
+  var aArguments = val.split("=");
+if (aArguments.length < 1){
+  return;
+}
 
+if (aArguments[0] === "cache"){
+bUseCache = !(aArguments[1] === "false");
+}
+});
 const requestListener = function(req, res){
     const fileName = path.basename(req.url) === "" ? "index.html" : path.basename(req.url);
   console.log(`requested file: ${fileName}`);
-if (fileMap[fileName]){
+if (bUseCache && fileMap[fileName]){
   console.log(`file ${fileName} read from cache`);
 respond(res, fileMap[fileName], fileName);
 } else {
@@ -61,4 +74,9 @@ function respond(response, fileContent, filePath){
 const server = http.createServer(requestListener);
 server.listen(port, host, () => {
   console.log(`Server is running on http://${host}:${port}`);
+  if (bUseCache){
+    console.log("Cache enabled");
+  } else {
+   console.log("Cache disabled");
+  }
 });
