@@ -25,7 +25,7 @@ if (bUseCache && fileMap[fileName]){
   console.log(`file ${fileName} read from cache`);
 respond(res, fileMap[fileName], fileName);
 } else {
-  fs.readFile(path.join(__dirname, "/", fileName))
+  fs.readFile(path.join(__dirname, path.dirname(req.url), fileName))
     .then(contents => {
 fileMap[fileName] = contents;
   console.log(`file ${fileName} read from file system`);

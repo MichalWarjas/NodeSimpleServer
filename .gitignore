@@ -36,6 +36,7 @@ ehthumbs.db
 Thumbs.db
 # folders
 deploy/
+www/
 .git/
 node_modules/
 
