@@ -45,6 +45,9 @@ function respond(response, fileContent, filePath){
       case '.html':
           contentType = 'text/html';
           break;
+      case '.txt':
+            contentType = 'text/plain';
+            break;
         case '.js':
             contentType = 'text/javascript';
             break;
