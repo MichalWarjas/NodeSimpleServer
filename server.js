@@ -19,7 +19,8 @@ bUseCache = !(aArguments[1] === "false");
 }
 });
 const requestListener = function(req, res){
-    const fileName = path.basename(req.url) === "" ? "index.html" : path.basename(req.url);
+    let fileName = path.basename(req.url) === "" ? "index.html" : path.basename(req.url);
+    fileName = fileName.slice(0,fileName.lastIndexOf('?') < 0?fileName.length:fileName.lastIndexOf('?'));
   console.log(`requested file: ${fileName}`);
 if (bUseCache && fileMap[fileName]){
   console.log(`file ${fileName} read from cache`);
@@ -69,6 +70,10 @@ function respond(response, fileContent, filePath){
         case '.ico':
             contentType = 'image/x-icon';
             break;
+        case '.xml':
+            contentType = 'application/xml';
+        default:
+          contentType = 'text/html';
     }
           response.setHeader("Content-Type", contentType);
           response.writeHead(200);

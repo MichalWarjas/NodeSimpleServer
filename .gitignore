@@ -39,6 +39,7 @@ deploy/
 www/
 .git/
 node_modules/
+resources/
 
 ########################
 
