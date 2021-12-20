@@ -20,7 +20,13 @@ bUseCache = !(aArguments[1] === "false");
 });
 const requestListener = function(req, res){
     let fileName = path.basename(req.url) === "" ? "index.html" : path.basename(req.url);
-    fileName = fileName.slice(0,fileName.lastIndexOf('?') < 0?fileName.length:fileName.lastIndexOf('?'));
+    let fileArray = fileName.split("?");
+    let paramStringArray = [];
+    fileName = fileArray[0];
+    if (fileArray.length > 1 ){
+      paramStringArray = fileArray.splice(1);
+      console.log(`url params: ${paramStringArray}`);
+    }
   console.log(`requested file: ${fileName}`);
 if (bUseCache && fileMap[fileName]){
   console.log(`file ${fileName} read from cache`);
