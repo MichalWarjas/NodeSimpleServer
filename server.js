@@ -20,10 +20,10 @@ bUseCache = !(aArguments[1] === "false");
 });
 const requestListener = function(req, res){
     let fileName = path.basename(req.url) === "" ? "index.html" : path.basename(req.url);
-    let fileArray = fileName.split("?");
+    const fileArray = fileName.split("?");
     let paramStringArray = [];
     fileName = fileArray[0];
-    if (fileArray.length > 1 ){
+    if (fileArray.length > 1){
       paramStringArray = fileArray.splice(1);
       console.log(`url params: ${paramStringArray}`);
     }
@@ -78,6 +78,7 @@ function respond(response, fileContent, filePath){
             break;
         case '.xml':
             contentType = 'application/xml';
+            break;
         default:
           contentType = 'text/html';
     }
