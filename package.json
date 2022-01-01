@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/MichalWarjas/NodeSimpleServer/issues"
   },
-  "homepage": "https://github.com/MichalWarjas/NodeSimpleServer#readme"
+  "homepage": "https://github.com/MichalWarjas/NodeSimpleServer#readme",
+  "dependencies": {
+    "http-proxy": "^1.18.1"
+  }
 }
