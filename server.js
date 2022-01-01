@@ -6,6 +6,7 @@ const host = 'localhost';
 const port = 9999;
 const fileMap = {};
 let bUseCache = true;
+let destinationPathName = "";
 let destinationURL = "";
 var proxyURL = "";
 const destinationsDirName = `/destinations`;
@@ -21,6 +22,7 @@ if (aArguments.length < 1){
 if (aArguments[0] === "cache"){
 bUseCache = !(aArguments[1] === "false");
 } else if (aArguments[0] === 'destination') {
+  destinationPathName = aArguments[1];
   destinationURL = aArguments[2];
 }
 });
@@ -32,9 +34,10 @@ const serveProxy = function(req, res){
 };
 const checkDestination = function(req, fileName){
   const resolvedPath = path.resolve(__dirname, path.dirname(req.url));
+    console.log('\x1b[35m%s\x1b[0m', `Resolved path ${resolvedPath}`);
   let destinationPattern = new RegExp(destinationsDirName, 'g');
   if (destinationPattern.test(resolvedPath)){
-  let resolvedPathSubstring = resolvedPath.substring(destinationPattern.lastIndex + destinationsDirName.length, resolvedPath.length);
+  let resolvedPathSubstring = resolvedPath.substring(destinationPattern.lastIndex + destinationPathName.length + 1, resolvedPath.length);
 proxyURL = resolvedPathSubstring + (fileName === "" ? "" : ("/" + fileName));
             console.log('\x1b[31m%s\x1b[0m', `Proxy URL ${proxyURL}`);
     return true;
@@ -43,8 +46,13 @@ proxyURL = resolvedPathSubstring + (fileName === "" ? "" : ("/" + fileName));
 };
 const requestListener = function(req, res){
     const urlParamPattern = /\w\?+(?=\w)/g;
+    const specialCharPattern = /[^A-Za-z0-9_.]/;
     let fileName = path.basename(req.url) === "" ? "index.html" : path.basename(req.url);
-    fileName = (path.extname(req.url) && path.extname(req.url) !== "") || /^\W/.test(fileName) ? fileName : fileName + "/";
+    let bSpecialChar = specialCharPattern.test(fileName);
+    if (bSpecialChar){
+      console.log('\x1b[31m%s\x1b[0m', `Special pattern in FileName found `, specialCharPattern.exec(fileName));
+    }
+    fileName = (path.extname(req.url) && path.extname(req.url) !== "") || bSpecialChar ? fileName : fileName + "/";
     if (urlParamPattern.test(fileName)){
           console.log('\x1b[31m%s\x1b[0m', `URL parameters detected`, urlParamPattern.lastIndex);
     let paramStringArray = [];
